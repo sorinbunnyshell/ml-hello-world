@@ -3,7 +3,7 @@ $(document).ready(function () {
   let trainingTimer;
   let trainingStartTime;
 
-  let apiUrl = "http://localhost:8080";
+  let apiUrl = "<<API_URL>>";
 
   let iconInProgress = "bi-arrow-repeat text-primary in-progress";
   let iconSuccess = "bi-check-circle-fill text-success";

@@ -2,7 +2,10 @@ version: '3.8'
 
 services:
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        API_URL: ${API_URL}
     ports:
       - "80:80"
     depends_on:
@@ -15,6 +18,6 @@ services:
     ports:
       - "8080:5000"
     environment:
-      - ALLOWED_ORIGIN=http://localhost
+      - ALLOWED_ORIGIN=${FRONTEND_URL}
     volumes:
       - ./backend:/app
