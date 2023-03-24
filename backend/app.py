@@ -44,7 +44,7 @@ def predict():
         return jsonify({'error': 'Invalid model name'}), 400
 
     model = model_dict[model_name]
-    model.load_trained_model(trained_models[model_name])
+    load_model(model, trained_models[model_name])
 
     preprocess = transforms.Compose([
         transforms.Resize(32),
@@ -57,6 +57,8 @@ def predict():
     prediction = model.predict(image_tensor)
     elapsed_time = time.time() - start_time
     return jsonify({'prediction': prediction, 'time': elapsed_time})
+
+
 
 @app.route('/start-training', methods=['POST'])
 def start_training_route():
@@ -76,10 +78,23 @@ def start_training_route():
     except ValueError as e:
         return jsonify({'status': 'failed', 'message': str(e)})
 
+
+
 @app.route('/check-training-status', methods=['GET'])
 def check_training_status():
     status = 'finished' if not training_lock.locked() else 'in progress'
     return jsonify({'status': status})
+
+
+
+def load_model(model_instance, model_path):
+    if os.path.exists(model_path):
+        model_instance.load_trained_model(model_path)
+        print(f"Loaded model from {model_path}")
+    else:
+        print(f"Model file not found: {model_path}")
+
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

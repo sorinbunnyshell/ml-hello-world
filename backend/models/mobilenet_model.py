@@ -5,6 +5,7 @@ import torchvision.transforms as transforms
 from torchvision.datasets import CIFAR10
 from torch.utils.data import DataLoader
 from torchvision.models import mobilenet_v2
+import os
 
 class MobileNetModel:
     def __init__(self):
@@ -58,5 +59,10 @@ class MobileNetModel:
             return classes[predicted.item()]
 
     def load_trained_model(self, model_path):
-        self.model.load_state_dict(torch.load(model_path))
-        self.model.eval()
+        if os.path.exists(model_path):
+            state_dict = torch.load(model_path, map_location=self.device)
+            self.model.load_state_dict(state_dict)
+            self.model.eval()  # Call eval() on the underlying PyTorch model
+            print(f"Loaded model from {model_path}")
+        else:
+            print(f"Model file not found: {model_path}")
