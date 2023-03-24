@@ -3,7 +3,6 @@ FROM bitnami/pytorch:1.11.0
 USER 0
 RUN mkdir /.cache && chmod 777 /.cache
 
-USER 1001
 WORKDIR /app
 
 COPY requirements.txt .
