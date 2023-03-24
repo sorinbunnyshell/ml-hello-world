@@ -6,8 +6,8 @@ body {
   height: 100%;
 }
 
-.in-progress {
-  animation: rotation 1s infinite linear;
+.in-progress:before {
+  animation: rotate 1s linear infinite;
 }
 
 .short-input {
@@ -59,11 +59,11 @@ body {
 }
 
 
-@keyframes rotation {
-  from {
+@keyframes rotate {
+  0% {
     transform: rotate(0deg);
   }
-  to {
+  100% {
     transform: rotate(359deg);
   }
 }

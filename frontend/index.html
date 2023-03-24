@@ -37,8 +37,16 @@
               Please upload an image from the <a target="_blank" href="https://www.kaggle.com/datasets/swaroopkml/cifar10-pngs-in-folders">CIFAR-10 dataset</a>,
               from the <code>test</code> folder in order to test the output of the model.
               <br>
-              As this is a very simple model, expect modest results. :)
+              The Custom CNN is a rudimentary model, just to prove the concept, so please expect modest results. 😊
             </p>
+            <div class="row mb-3">
+              <div class="col">
+                <select class="custom-select" id="predict-model">
+                  <option value="mobilenet" selected>MobileNet model</option>
+                  <option value="custom">Custom CNN model</option>
+                </select>
+              </div>
+            </div>
             <div class="custom-file mb-3">
               <input type="file" class="custom-file-input" id="file-input">
               <label class="custom-file-label" for="file-input">Choose file</label>
@@ -63,10 +71,18 @@
             <p>
               A model already exists and is ready to be used, but you can also re-train it.
               Using a higher number of epochs will take longer to compute, but will not necessarily increase prediction accuracy.
+              For resource-consciousness  reasons, you can only train the Custom module.
             </p>
+            <div class="row mb-3">
+              <div class="col">
+                <select class="custom-select" id="train-model">
+                  <option value="custom" selected>Custom CNN model</option>
+                </select>
+              </div>
+            </div>
             <div class="form-group form-inline">
               <label for="epochs-input" class="mr-2">Epochs</label>
-              <input type="number" class="form-control custom-number-input short-input" id="epochs-input" value="10" min="1">
+              <input type="number" class="form-control custom-number-input short-input" id="epochs-input" value="5" min="1">
             </div>
             <button id="train-btn" class="btn btn-primary">Start Training</button> <i id="training-status" class="bi"></i>
             <div id="training-time-container" class="mt-2">
@@ -80,7 +96,7 @@
 
   <h3 class="mt-3">TO DO:</h3>
   <ul>
-    <li>improve model accuracy</li>
+    <li>improve model accuracy - where does it used the generated model?!? & check if training is done correct</li>
     <li>create bunnyshell.yaml + template description</li>
   </ul>
 </body>

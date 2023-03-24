@@ -67,3 +67,7 @@ class CustomModel:
             _, predicted = torch.max(outputs, 1)
 
             return classes[predicted.item()]
+
+    def load_trained_model(self, model_path):
+        self.model.load_state_dict(torch.load(model_path))
+        self.model.eval()

@@ -21,4 +21,4 @@ def start_training(epochs=5, model_type='mobilenet'):
         model.train(epochs=epochs)
 
         # Save the trained model
-        torch.save(model.model.state_dict(), 'trained_model.pt')
+        torch.save(model.model.state_dict(), model_name)

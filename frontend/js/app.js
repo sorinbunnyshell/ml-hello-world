@@ -35,10 +35,12 @@ $(document).ready(function () {
       const base64Image = event.target.result.split(",")[1];
       const startTime = Date.now();
 
+      var model = $('#predict-model').val();
+
       $.ajax({
         url: apiUrl + "/predict",
         type: "POST",
-        data: JSON.stringify({ image: base64Image }),
+        data: JSON.stringify({ image: base64Image, model: model }),
         contentType: "application/json",
         processData: false,
         success: function (data) {
@@ -78,11 +80,12 @@ $(document).ready(function () {
 
     // Get the number of epochs from the input
     const epochs = parseInt($("#epochs-input").val()) || 5;
+    var model = $('#train-model').val();
 
     $.ajax({
         url: apiUrl + "/start-training",
         type: "POST",
-        data: JSON.stringify({ epochs: epochs }),
+        data: JSON.stringify({ epochs: epochs, model: model }),
         contentType: "application/json",
         processData: false,
       })

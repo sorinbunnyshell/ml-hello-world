@@ -9,18 +9,26 @@ import os
 import base64
 import time
 
-from models.cifar10_model import CIFAR10Model
-from models.cifar10_training import start_training
+from models.custom_model import CustomModel
+from models.mobilenet_model import MobileNetModel
+from models.training import start_training
+
 from utils.locks import training_lock
+
+model_dict = {
+    'custom': CustomModel(),
+    'mobilenet': MobileNetModel()
+}
+trained_models = {
+    'custom': "trained_custom.pt",
+    'mobilenet': "trained_mobilenet.pt"
+}
 
 # Read the allowed origin from the environment variable
 allowed_origin = os.environ.get("ALLOWED_ORIGIN", "http://localhost")
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": allowed_origin}})
-
-
-model = CIFAR10Model()
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -29,6 +37,14 @@ def predict():
     image_data = json_data['image']
     image_data = base64.b64decode(image_data)
     image = Image.open(BytesIO(image_data)).convert('RGB')
+
+    model_name = json_data.get('model', 'mobilenet')
+    # Validate the model name
+    if model_name not in model_dict:
+        return jsonify({'error': 'Invalid model name'}), 400
+
+    model = model_dict[model_name]
+    model.load_trained_model(trained_models[model_name])
 
     preprocess = transforms.Compose([
         transforms.Resize(32),
@@ -49,12 +65,16 @@ def start_training_route():
 
     # Get the number of epochs from the request JSON
     json_data = request.get_json()
-    epochs = json_data.get('epochs', 10)  # Default to 10 epochs if not specified
+    epochs = json_data.get('epochs', 5)
+    model_type = json_data.get('model', 'mobilenet')
 
     # Start training in a separate thread
-    training_thread = threading.Thread(target=start_training, args=(epochs,))
-    training_thread.start()
-    return jsonify({'status': 'success', 'message': 'Training started'})
+    try:
+        training_thread = threading.Thread(target=start_training, args=(epochs,model_type))
+        training_thread.start()
+        return jsonify({'status': 'success', 'message': 'Training started'})
+    except ValueError as e:
+        return jsonify({'status': 'failed', 'message': str(e)})
 
 @app.route('/check-training-status', methods=['GET'])
 def check_training_status():
