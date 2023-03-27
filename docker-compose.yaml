@@ -4,17 +4,18 @@ services:
   frontend:
     build:
       context: ./frontend
-      args:
-        API_URL: ${API_URL}
+      dockerfile: .docker/Dockerfile
     ports:
       - "80:80"
-    depends_on:
-      - backend
+    environment:
+      - API_URL=${API_URL:-http://localhost:8080}
     volumes:
       - ./frontend:/usr/share/nginx/html
 
   backend:
-    build: ./backend
+    build:
+      context: ./backend
+      dockerfile: .docker/Dockerfile
     ports:
       - "8080:5000"
     environment:
