@@ -30,6 +30,7 @@ allowed_origin = os.environ.get("ALLOWED_ORIGIN", "http://localhost")
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": allowed_origin}})
 
+
 @app.route('/predict', methods=['POST'])
 def predict():
     start_time = time.time()
@@ -59,7 +60,6 @@ def predict():
     return jsonify({'prediction': prediction, 'time': elapsed_time})
 
 
-
 @app.route('/start-training', methods=['POST'])
 def start_training_route():
     if training_lock.locked():
@@ -79,12 +79,10 @@ def start_training_route():
         return jsonify({'status': 'failed', 'message': str(e)})
 
 
-
 @app.route('/check-training-status', methods=['GET'])
 def check_training_status():
     status = 'finished' if not training_lock.locked() else 'in progress'
     return jsonify({'status': status})
-
 
 
 def load_model(model_instance, model_path):
@@ -93,7 +91,6 @@ def load_model(model_instance, model_path):
         print(f"Loaded model from {model_path}")
     else:
         print(f"Model file not found: {model_path}")
-
 
 
 if __name__ == '__main__':

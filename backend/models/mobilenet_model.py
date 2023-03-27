@@ -7,6 +7,7 @@ from torch.utils.data import DataLoader
 from torchvision.models import mobilenet_v2
 import os
 
+
 class MobileNetModel:
     def __init__(self):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

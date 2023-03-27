@@ -4,8 +4,10 @@ from models.mobilenet_model import MobileNetModel
 
 from utils.locks import training_lock
 
+
 class InvalidModelTypeError(Exception):
     pass
+
 
 def start_training(epochs=5, model_type='mobilenet'):
     with training_lock:

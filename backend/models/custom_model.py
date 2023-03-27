@@ -6,6 +6,7 @@ from torchvision.datasets import CIFAR10
 from torch.utils.data import DataLoader
 import os
 
+
 class CustomModel:
     def __init__(self):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
