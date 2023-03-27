@@ -20,8 +20,8 @@ model_dict = {
     'mobilenet': MobileNetModel()
 }
 trained_models = {
-    'custom': "trained_custom.pt",
-    'mobilenet': "trained_mobilenet.pt"
+    'custom': "trained-models/trained_custom.pt",
+    'mobilenet': "trained-models/trained_mobilenet.pt"
 }
 
 # Read the allowed origin from the environment variable

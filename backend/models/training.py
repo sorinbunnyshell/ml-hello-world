@@ -11,14 +11,14 @@ def start_training(epochs=5, model_type='mobilenet'):
     with training_lock:
         if model_type == 'mobilenet':
             model = MobileNetModel()
-            model_name = 'trained_mobilenet.pt'
+            model_path = 'trained-models/trained_mobilenet.pt'
         elif model_type == 'custom':
             model = CustomModel()
-            model_name = 'trained_custom.pt'
+            model_path = 'trained-models/trained_custom.pt'
         else:
             raise InvalidModelTypeError(f"Invalid model type: {model_type}")
 
         model.train(epochs=epochs)
 
         # Save the trained model
-        torch.save(model.model.state_dict(), model_name)
+        torch.save(model.model.state_dict(), model_path)
