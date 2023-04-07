@@ -20,5 +20,6 @@ services:
       - "8080:5000"
     environment:
       - ALLOWED_ORIGIN=${FRONTEND_URL}
+      - DEBUG=True
     volumes:
       - ./backend:/app
